@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTUN TAUK AUTOMOTIVE - Premium Chinese Parts Specialist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Noto+Sans+Myanmar:wght@400;700&display=swap');
+        
+        body { 
+            font-family: 'Space Grotesk', 'Noto Sans Myanmar', sans-serif; 
+            background-color: #020617; 
+            color: #f1f5f9;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #main-bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+        }
+
+        #dynamic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: all 1s ease;
+        }
+
+        /* Ambient Dynamic Background Steps */
+        .bg-step-1 #main-bg-image { filter: brightness(0.3) blur(2px); transform: scale(1.0); }
+        .bg-step-1 #dynamic-overlay { background: radial-gradient(circle at top right, rgba(239, 68, 68, 0.15), rgba(2, 6, 23, 0.98)); }
+        
+        .bg-step-2 #main-bg-image { filter: brightness(0.25) blur(6px); transform: scale(1.04); }
+        .bg-step-2 #dynamic-overlay { background: radial-gradient(circle at center, rgba(59, 130, 246, 0.18), rgba(2, 6, 23, 0.99)); }
+        
+        .bg-step-3 #main-bg-image { filter: brightness(0.2) blur(10px); transform: scale(1.08); }
+        .bg-step-3 #dynamic-overlay { background: radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.15), rgba(2, 6, 23, 1)); }
+        
+        .bg-step-4 #main-bg-image { filter: brightness(0.15) blur(14px); transform: scale(1.12); }
+        .bg-step-4 #dynamic-overlay { background: radial-gradient(circle at center, rgba(239, 68, 68, 0.15), rgba(2, 6, 23, 1)); }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .neon-glow-red {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.35);
+        }
+
+        .brand-hero-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.25) 0%, rgba(15, 23, 42, 0.5) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brand-hero-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 22px 40px -12px rgba(239, 68, 68, 0.15);
+        }
+
+        .step-active {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            transform: scale(1.08);
+        }
+
+        .payment-option {
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid transparent;
+        }
+        .payment-option.selected {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        .animate-float { animation: float 5s ease-in-out infinite; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide { animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        @keyframes shake {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            20%, 60% { transform: scale(1.1) rotate(-4deg); }
+            40%, 80% { transform: scale(1.1) rotate(4deg); }
+        }
+        .animate-shake { animation: shake 0.45s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        .part-image-container {
+            width: 100%;
+            height: 140px;
+            background: #0f172a;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .part-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .brand-hero-card:hover .part-image-container img {
+            transform: scale(1.06);
+        }
+
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(239, 68, 68, 0.3);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(239, 68, 68, 0.6);
+        }
+    </style>
+</head>
+<body class="pb-28 bg-step-1">
+
+    <!-- Background Layers -->
+    <div id="main-bg-image"></div>
+    <div id="dynamic-overlay"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 glass border-b border-white/5 px-6 py-4 flex justify-between items-center">
+        <!-- Logo -->
+        <div id="logo-container" class="flex items-center gap-3 cursor-pointer group" 
+             onmousedown="startAdminTimer()" onmouseup="clearAdminTimer()" 
+             ontouchstart="startAdminTimer()" ontouchend="clearAdminTimer()">
+            <div class="bg-gradient-to-br from-red-500 to-red-800 p-2.5 rounded-xl shadow-lg shadow-red-600/20 group-hover:rotate-12 transition-transform">
+                <i class="fas fa-car-side text-white text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-extrabold tracking-tighter text-white leading-none uppercase">
+                    HTUN TAUK <span class="text-red-500">AUTOMOTIVE</span>
+                </h1>
+                <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Chinese OEM Specialist</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <!-- Language Switcher -->
+            <button onclick="toggleLanguage()" class="glass px-3 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white transition">
+                <span id="lang-btn-text">EN</span>
+            </button>
+
+            <!-- Admin Active Indicator -->
+            <button id="admin-indicator" class="hidden p-3 bg-yellow-500/10 text-yellow-500 rounded-xl border border-yellow-500/20 hover:bg-yellow-500/20 transition" onclick="showAdminPanel()">
+                <i class="fas fa-user-shield"></i>
+            </button>
+
+            <!-- Cart Trigger -->
+            <button id="cart-btn" onclick="showCart()" class="relative p-3 bg-white/5 rounded-xl transition hover:bg-white/10 border border-white/10 shadow-lg backdrop-blur-md">
+                <i class="fas fa-shopping-basket text-red-500 text-lg"></i>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-700 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full shadow-lg border border-slate-950 transition-all duration-300">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="pt-32 px-4 max-w-4xl mx-auto relative z-10">
+        
+        <!-- Interactive Progress Stepper -->
+        <div class="flex justify-between items-center mb-10 px-4 overflow-x-auto no-scrollbar relative">
+            <div class="absolute top-5 left-10 right-10 h-[2px] bg-white/5 -z-10"></div>
+            
+            <div onclick="stepperGoto(1)" class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group">
+                <div id="step-1-node" class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 glass font-bold step-active transition-all duration-300 text-sm">1</div>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition" data-key="step-brand">Brand</span>
+            </div>
+            
+            <div onclick="stepperGoto(2)" class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group">
+                <div id="step-2-node" class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 glass font-bold transition-all duration-300 text-sm">2</div>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition" data-key="step-engine">Engine</span>
+            </div>
+            
+            <div onclick="stepperGoto(3)" class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group">
+                <div id="step-3-node" class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 glass font-bold transition-all duration-300 text-sm">3</div>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition" data-key="step-model">Model</span>
+            </div>
+            
+            <div onclick="stepperGoto(4)" class="flex flex-col items-center gap-2 min-w-[70px] cursor-pointer group">
+                <div id="step-4-node" class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10 glass font-bold transition-all duration-300 text-sm">4</div>
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-white transition" data-key="step-parts">Parts</span>
+            </div>
+        </div>
+
+        <!-- Render Target Area -->
+        <div id="content-area" class="animate-slide"></div>
+
+    </main>
+
+    <!-- Pin-Code Diagnostic Auth Modal -->
+    <div id="pin-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-md" onclick="hidePinModal()"></div>
+        <div class="glass p-8 rounded-[2rem] w-full max-w-sm border border-yellow-500/20 text-center relative z-10 animate-slide">
+            <div class="w-16 h-16 bg-yellow-500/10 text-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500/20">
+                <i class="fas fa-lock text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white uppercase tracking-wider mb-2" data-key="diagnostics-mode">System Diagnostics</h3>
+            <p class="text-xs text-slate-400 mb-6" data-key="pin-prompt">Enter diagnostic code to access administrator desk</p>
+            
+            <div class="flex justify-center gap-3 mb-6">
+                <input type="password" id="pin-digit-1" maxlength="1" class="pin-input w-12 h-14 text-center text-xl font-bold bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-yellow-500" onkeyup="focusNext(this, 'pin-digit-2')">
+                <input type="password" id="pin-digit-2" maxlength="1" class="pin-input w-12 h-14 text-center text-xl font-bold bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-yellow-500" onkeyup="focusNext(this, 'pin-digit-3')">
+                <input type="password" id="pin-digit-3" maxlength="1" class="pin-input w-12 h-14 text-center text-xl font-bold bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-yellow-500" onkeyup="focusNext(this, 'pin-digit-4')">
+                <input type="password" id="pin-digit-4" maxlength="1" class="pin-input w-12 h-14 text-center text-xl font-bold bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-yellow-500" onkeyup="verifyPin(this)">
+            </div>
+            <button onclick="hidePinModal()" class="text-slate-400 hover:text-white text-xs uppercase tracking-widest font-bold" data-key="cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel Control Workspace -->
+    <div id="admin-panel" class="fixed inset-0 z-[110] hidden">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" onclick="hideAdminPanel()"></div>
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-950 border border-white/10 rounded-[2.5rem] p-6 md:p-8 shadow-2xl">
+            <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white italic tracking-tight uppercase">ADMIN <span class="text-yellow-500">DESK</span></h2>
+                    <p class="text-[10px] text-yellow-500/70 font-semibold tracking-wider uppercase">Parts Catalog Manager</p>
+                </div>
+                <button onclick="hideAdminPanel()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-slate-400 hover:text-white transition"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <!-- Add Part Form -->
+                <div class="md:col-span-5 space-y-4">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2" data-key="add-new-part">Add New Part</h3>
+                    <div class="space-y-3">
+                        <input id="admin-part-name" type="text" placeholder="Part Name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-yellow-500 transition">
+                        <input id="admin-part-price" type="number" placeholder="Price (Ks)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-yellow-500 transition">
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <select id="admin-part-category" class="bg-slate-900 border border-white/10 rounded-xl px-2 py-3 text-xs text-white outline-none focus:border-yellow-500 transition">
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Engine">Engine</option>
+                                <option value="Safety">Safety</option>
+                                <option value="EV Only">EV Only</option>
+                                <option value="Exterior">Exterior</option>
+                            </select>
+                            
+                            <select id="admin-part-brand" class="bg-slate-900 border border-white/10 rounded-xl px-2 py-3 text-xs text-white outline-none focus:border-yellow-500 transition">
+                                <option value="All">All Brands</option>
+                                <option value="GEELY">GEELY Only</option>
+                                <option value="BYD">BYD Only</option>
+                                <option value="CHANGAN">CHANGAN Only</option>
+                                <option value="GWM">GWM Only</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Upload Image Section -->
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block" data-key="part-image-upload">Upload Image (File/URL)</label>
+                            
+                            <!-- File Picker Dropzone -->
+                            <div class="relative flex items-center justify-center w-full">
+                                <label for="admin-part-file" id="file-upload-label" class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-white/10 rounded-xl cursor-pointer bg-white/5 hover:bg-white/10 hover:border-yellow-500/50 transition">
+                                    <div class="flex flex-col items-center justify-center pt-3 pb-3 text-center">
+                                        <i id="upload-icon" class="fas fa-image text-slate-400 text-lg mb-1.5"></i>
+                                        <p id="upload-text" class="text-[10px] text-slate-300 font-bold uppercase tracking-wider px-2" data-key="upload-prompt">Device မှ ပုံတင်ရန် (Upload Image)</p>
+                                        <p class="text-[8px] text-slate-500 mt-0.5">JPEG, PNG, WEBP (Max 2MB)</p>
+                                    </div>
+                                    <input id="admin-part-file" type="file" accept="image/*" class="hidden" onchange="handleFileSelect(this)">
+                                </label>
+                            </div>
+
+                            <!-- Alternate Direct URL Input -->
+                            <div class="flex items-center gap-2">
+                                <div class="h-[1px] bg-white/5 flex-1"></div>
+                                <span class="text-[8px] font-bold text-slate-600 uppercase" data-key="or-text">or</span>
+                                <div class="h-[1px] bg-white/5 flex-1"></div>
+                            </div>
+
+                            <input id="admin-part-image" type="text" placeholder="Direct Image URL" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-yellow-500 transition">
+                        </div>
+                    </div>
+                    <button onclick="adminAddPart()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-black py-4 rounded-xl uppercase text-xs tracking-widest transition shadow-lg shadow-yellow-500/20" data-key="add-to-catalog">Add to Catalog</button>
+                </div>
+
+                <!-- Database Listing -->
+                <div class="md:col-span-7 flex flex-col border-t md:border-t-0 md:border-l border-white/10 md:pl-6 pt-6 md:pt-0">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4" data-key="catalog-items">Catalog Inventory</h3>
+                    <div id="admin-parts-list" class="space-y-2 flex-1 max-h-[340px] overflow-y-auto pr-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Immersive Interactive Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-md" onclick="hideCart()"></div>
+        <div class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-950 border-l border-white/5 flex flex-col p-6 shadow-2xl overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xl font-bold tracking-tight text-white uppercase italic"><span class="text-red-500" data-key="cart-title-1">Shopping</span> <span data-key="cart-title-2">Basket</span></h2>
+                    <p class="text-[10px] text-slate-400 font-medium uppercase mt-0.5" data-key="basket-tag">Secure checkout process</p>
+                </div>
+                <button onclick="hideCart()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-slate-400 hover:text-white transition"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Cart Items Display Stack -->
+            <div id="cart-items-list" class="space-y-3 mb-6 flex-1 overflow-y-auto pr-1"></div>
+            
+            <div id="cart-footer" class="hidden border-t border-white/5 pt-4">
+                <!-- Cost Calculations Card -->
+                <div class="glass p-5 rounded-2xl mb-6 border-red-500/10">
+                    <div class="flex justify-between text-xs text-slate-400 font-bold uppercase mb-2">
+                        <span data-key="basket-total">Items Total</span>
+                        <span id="summary-items-total">0 Ks</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-400 font-bold uppercase mb-4">
+                        <span data-key="delivery">Delivery Fee</span>
+                        <span id="summary-delivery">3,000 Ks</span>
+                    </div>
+                    <div class="border-t border-white/5 pt-3 flex justify-between items-center">
+                        <span class="text-white font-extrabold uppercase tracking-wide text-xs" data-key="grand-total">Grand Total</span>
+                        <span id="summary-grand-total" class="text-lg font-black text-red-500">0 Ks</span>
+                    </div>
+                </div>
+
+                <!-- Logistics & Billing Form -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-1.5" data-key="delivery-info">Delivery Information</h3>
+                    <div class="glass rounded-xl overflow-hidden">
+                        <input id="user-name" type="text" placeholder="အမည် (Name)" class="w-full bg-transparent px-5 py-3.5 outline-none text-xs text-white transition focus:bg-white/5">
+                    </div>
+                    <div class="glass rounded-xl overflow-hidden">
+                        <input id="user-phone" type="text" placeholder="ဖုန်းနံပါတ် (Phone Number)" class="w-full bg-transparent px-5 py-3.5 outline-none text-xs text-white transition focus:bg-white/5">
+                    </div>
+                    <div class="glass rounded-xl overflow-hidden">
+                        <textarea id="user-address" placeholder="နေရပ်လိပ်စာ အပြည့်အစုံ (Full Address)" class="w-full bg-transparent px-5 py-3 outline-none text-xs text-white h-20 resize-none transition focus:bg-white/5"></textarea>
+                    </div>
+
+                    <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-white/5 pb-1.5 pt-3" data-key="payment">Payment Method</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div onclick="selectPaymentMethod('KBZPay')" id="pay-kbz" class="payment-option glass p-3.5 rounded-xl flex flex-col items-center gap-1.5">
+                            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white text-xs shadow-md">K</div>
+                            <span class="text-[9px] font-bold text-slate-200">KBZPay</span>
+                        </div>
+                        <div onclick="selectPaymentMethod('CBPay')" id="pay-CB" class="payment-option glass p-3.5 rounded-xl flex flex-col items-center gap-1.5">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center font-bold text-white text-xs shadow-md">W</div>
+                            <span class="text-[9px] font-bold text-slate-200">CBPay</span>
+                        </div>
+                    </div>
+
+                    <div id="payment-instruction" class="hidden glass p-4 rounded-xl text-[10px] text-slate-300">
+                        <p class="font-bold text-white mb-1.5" data-key="acc-details">Transfer Details:</p>
+                        <p id="account-info">09 777 888 999 (U Htun Tauk)</p>
+                        <p class="mt-1.5 text-red-400 italic font-medium" data-key="ss-required">* Please screenshot transfer slip as proof.</p>
+                    </div>
+
+                    <button id="send-btn" onclick="sendOrder()" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-extrabold py-4 rounded-xl uppercase tracking-widest text-xs transition shadow-lg shadow-red-600/35 mt-4" data-key="send-order">
+                        Order Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // High-Quality Web Audio Feedback Synthesizer
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'success') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(350, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.25);
+                } else if (type === 'add') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(1000, audioCtx.currentTime + 0.12);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.12);
+                } else if (type === 'error') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(80, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch (e) {
+                console.warn('Audio feedback failed to initialize:', e);
+            }
+        }
+
+        // Expanded Multi-Brand Dataset (Premium Automotive Schema)
+        const brandMatrix = {
+            "GEELY": {
+                logo: "fa-car",
+                "EV (Electric Model)": ["Zeekr 001", "Zeekr X", "Geometry C", "Galaxy E5", "Panda Mini"],
+                "ICE (Fuel Model)": ["Coolray", "Okavango", "Azkarra", "Emgrand", "Monjaro"]
+            },
+            "BYD": {
+                logo: "fa-bolt",
+                "EV (Electric Model)": ["Atto 3", "Dolphin", "Seal", "Han EV", "Tang EV", "Song Plus"],
+                "ICE (Fuel Model)": ["Qin Plus DM-i", "Song Pro DM-i", "Chazor DM-i"]
+            },
+            "CHANGAN": {
+                logo: "fa-shield-halved",
+                "EV (Electric Model)": ["Deepal SL03", "Deepal S7", "Lumin EV"],
+                "ICE (Fuel Model)": ["Alsvin", "CS35 Plus", "CS75 Plus", "UNI-T", "UNI-K"]
+            },
+            "GWM": {
+                logo: "fa-gauge-high",
+                "EV (Electric Model)": ["Ora Good Cat", "Ora 07 (Lightning)"],
+                "ICE (Fuel Model)": ["Haval H6", "Haval Jolion", "Tank 300", "Tank 500"]
+            }
+        };
+
+        // Complete Bilingual Localization Dictionary
+        const i18n = {
+            my: {
+                "step-brand": "အမှတ်တံဆိပ်",
+                "step-engine": "အင်ဂျင်စနစ်",
+                "step-model": "မော်ဒယ်လ်",
+                "step-parts": "ပစ္စည်းများ",
+                "brand-header": "သင့်ကားအမျိုးအစားကို <span class='text-red-500'>ရွေးချယ်ပါ</span>",
+                "brand-tagline": "တရုတ်နိုင်ငံထုတ် ကားအမျိုးအစားများအတွက် အရည်အသွေးမြင့် ပစ္စည်းစစ်စစ်များ",
+                "engine-header": "အင်ဂျင်စနစ် <span class='text-red-500'>ရွေးချယ်ပါ</span>",
+                "engine-tagline": "သင့်ယာဉ်၏ မောင်းနှင်မှုစနစ်ကို သတ်မှတ်ပေးပါ",
+                "model-header": "မော်ဒယ်လ် <span class='text-red-500'>ရွေးချယ်ပါ</span>",
+                "parts-header": "အပိုပစ္စည်းများ <span class='text-red-500'>ဝယ်ယူရန်</span>",
+                "search-placeholder": "ပစ္စည်းအမည် ရှာရန်...",
+                "filter-all": "အားလုံး",
+                "add-basket": "ခြင်းတောင်းထဲထည့်မည်",
+                "added": "ခြင်းတောင်းထဲသို့ ထည့်သွင်းပြီးပါပြီ",
+                "empty-basket": "ဝယ်ယူမည့်ပစ္စည်းမရှိသေးပါ",
+                "basket-total": "ပစ္စည်းစုစုပေါင်း",
+                "delivery": "ပို့ဆောင်ခ",
+                "grand-total": "ကျသင့်ငွေစုစုပေါင်း",
+                "delivery-info": "ပို့ဆောင်ရန်လိပ်စာ",
+                "payment": "ငွေပေးချေမှုစနစ်",
+                "acc-details": "ငွေလွှဲရန် အချက်အလက်",
+                "ss-required": "* ငွေလွှဲပြီးပါက ဖြတ်ပိုင်း Screenshot ပို့ပေးရန်လိုအပ်ပါသည်။",
+                "send-order": "အော်ဒါတင်မည်",
+                "diagnostics-mode": "စနစ်လော့ခ်",
+                "pin-prompt": "စီမံခန့်ခွဲသူစာမျက်နှာသို့ဝင်ရောက်ရန် ပင်နံပါတ် ၄လုံး ရိုက်ထည့်ပါ",
+                "cancel": "မလုပ်တော့ပါ",
+                "add-new-part": "ပစ္စည်းအသစ်ဖန်တီးရန်",
+                "add-to-catalog": "စာရင်းထဲသို့ပေါင်းထည့်မည်",
+                "catalog-items": "လက်ရှိစတော့ခ်စာရင်း",
+                "cart-title-1": "ဝယ်ယူမည့်",
+                "cart-title-2": "ပစ္စည်းများ",
+                "basket-tag": "လုံခြုံစိတ်ချရသော ဝယ်ယူမှုစနစ်",
+                "toast-fill": "အချက်အလက်များ ပြည့်စုံစွာ ဖြည့်စွက်ပေးပါ",
+                "toast-order-sent": "အော်ဒါကို အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ",
+                "toast-order-fail": "အော်ဒါ ပို့ဆောင်မှု မအောင်မြင်ပါ",
+                "sending": "ပို့ဆောင်နေသည်...",
+                "part-image-upload": "ပုံထည့်သွင်းရန် (ဖိုင် သို့မဟုတ် လင့်ခ်)",
+                "upload-prompt": "Device မှ ပုံရွေးချယ်ရန် (Upload Image)",
+                "or-text": "သို့မဟုတ်"
+            },
+            en: {
+                "step-brand": "Brand",
+                "step-engine": "Engine",
+                "step-model": "Model",
+                "step-parts": "Parts",
+                "brand-header": "CHOOSE YOUR <span class='text-red-600'>DRIVE</span>",
+                "brand-tagline": "PREMIUM ORIGINAL PARTS FOR CHINESE AUTOMOTIVES",
+                "engine-header": "SELECT ENGINE <span class='text-red-500'>TYPE</span>",
+                "engine-tagline": "Configure power layout of your vehicle",
+                "model-header": "SELECT <span class='text-red-500'>MODEL</span>",
+                "parts-header": "EXPLORE <span class='text-red-500'>SPARE PARTS</span>",
+                "search-placeholder": "Search parts...",
+                "filter-all": "All",
+                "add-basket": "Add to Basket",
+                "added": "Added to Basket",
+                "empty-basket": "No products selected",
+                "basket-total": "Subtotal",
+                "delivery": "Delivery Fee",
+                "grand-total": "Grand Total",
+                "delivery-info": "Logistics Destination",
+                "payment": "Payment Method",
+                "acc-details": "Transfer Details",
+                "ss-required": "* Transfer slip screenshot required to process.",
+                "send-order": "Secure Purchase",
+                "diagnostics-mode": "Diagnostics Access",
+                "pin-prompt": "Enter 4-digit security code to proceed to panel",
+                "cancel": "Cancel",
+                "add-new-part": "Add New Part",
+                "add-to-catalog": "Add to Catalog",
+                "catalog-items": "Catalog Inventory",
+                "cart-title-1": "My",
+                "cart-title-2": "Basket",
+                "basket-tag": "Secure checkout process",
+                "toast-fill": "Please fill out all the fields",
+                "toast-order-sent": "Your order has been placed successfully!",
+                "toast-order-fail": "Failed to dispatch order, try again",
+                "sending": "Processing...",
+                "part-image-upload": "Insert Image (File or URL)",
+                "upload-prompt": "Choose Image from Device",
+                "or-text": "or"
+            }
+        };
+
+        let currentLang = 'my';
+
+        // Initialized Database Seed (Saved inside Client Memory)
+        const defaultParts = [
+            { id: 1, name: "OEM Engine Oil Filter", category: "Maintenance", price: 18000, brand: "All", fuel: "ICE (Fuel Model)", img: "https://images.unsplash.com/photo-1590528732191-8822bc218178?auto=format&fit=crop&w=400" },
+            { id: 2, name: "Premium Air Filter Shield", category: "Maintenance", price: 28000, brand: "All", fuel: "ICE (Fuel Model)", img: "https://images.unsplash.com/photo-1597811984252-84950d99905c?auto=format&fit=crop&w=400" },
+            { id: 3, name: "Sport Front Brake Pads Kit", category: "Safety", price: 78000, brand: "All", fuel: "All", img: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=400" },
+            { id: 4, name: "Fast charging EV Cable (Type 2)", category: "EV Only", price: 380000, brand: "All", fuel: "EV (Electric Model)", img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400" },
+            { id: 5, name: "LED Dynamic Tail Light Bar", category: "Exterior", price: 165000, brand: "GEELY", fuel: "All", img: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=400" },
+            { id: 6, name: "BYD Blade Smart Charging Adapter", category: "EV Only", price: 145000, brand: "BYD", fuel: "EV (Electric Model)", img: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=400" },
+            { id: 7, name: "Premium Microfiber Spark Plug Set", category: "Engine", price: 42000, brand: "All", fuel: "ICE (Fuel Model)", img: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=400" }
+        ];
+
+        let partsLibrary = JSON.parse(localStorage.getItem('ht_parts_lib')) || defaultParts;
+        let selection = { brand: '', fuel: '', model: '' };
+        let cart = [];
+        let selectedPayment = null;
+        let currentFilter = 'All';
+        let searchQuery = '';
+        let uploadedImageBase64 = ''; // Holds the temporarily uploaded image base64
+        const deliveryFee = 3000;
+        let adminTimer;
+
+        // Diagnostic long press sequence
+        function startAdminTimer() {
+            adminTimer = setTimeout(() => {
+                playSound('success');
+                showPinModal();
+            }, 3000); 
+        }
+
+        function clearAdminTimer() {
+            clearTimeout(adminTimer);
+        }
+
+        function showPinModal() {
+            document.getElementById('pin-modal').classList.remove('hidden');
+            document.querySelectorAll('.pin-input').forEach(input => input.value = '');
+            document.getElementById('pin-digit-1').focus();
+        }
+
+        function hidePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+        }
+
+        function focusNext(current, nextId) {
+            if (current.value.length >= 1) {
+                const nextInput = document.getElementById(nextId);
+                if (nextInput) nextInput.focus();
+            }
+        }
+
+        function verifyPin(element) {
+            const digit1 = document.getElementById('pin-digit-1').value;
+            const digit2 = document.getElementById('pin-digit-2').value;
+            const digit3 = document.getElementById('pin-digit-3').value;
+            const digit4 = element.value;
+            
+            const compiledPin = digit1 + digit2 + digit3 + digit4;
+            if (compiledPin === '5202') {
+                playSound('success');
+                hidePinModal();
+                showAdminPanel();
+                document.getElementById('admin-indicator').classList.remove('hidden');
+            } else {
+                playSound('error');
+                showToast("Invalid Diagnostic Code");
+                hidePinModal();
+            }
+        }
+
+        function toggleLanguage() {
+            playSound('click');
+            currentLang = currentLang === 'my' ? 'en' : 'my';
+            document.getElementById('lang-btn-text').innerText = currentLang === 'my' ? 'EN' : 'MY';
+            translateInterface();
+            
+            // Re-render current active step view
+            if (!selection.brand) showStep1();
+            else if (!selection.fuel) showStep2();
+            else if (!selection.model) showStep3();
+            else showStep4();
+        }
+
+        function translateInterface() {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (i18n[currentLang][key]) {
+                    el.innerHTML = i18n[currentLang][key];
+                }
+            });
+        }
+
+        // Handle Image Upload File Select & Convert to Base64
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Check file size (restrict to 2MB to stay within LocalStorage limits)
+            if (file.size > 2 * 1024 * 1024) {
+                playSound('error');
+                showToast("Image size too large (Max 2MB)");
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImageBase64 = e.target.result;
+                playSound('success');
+                
+                // Visual completion state in UI
+                const label = document.getElementById('file-upload-label');
+                const textEl = document.getElementById('upload-text');
+                const iconEl = document.getElementById('upload-icon');
+                
+                label.classList.remove('border-white/10');
+                label.classList.add('border-green-500/50', 'bg-green-500/5');
+                iconEl.className = "fas fa-check-circle text-green-500 text-lg mb-1.5";
+                textEl.innerText = file.name.substring(0, 20) + (file.name.length > 20 ? '...' : '');
+                textEl.classList.remove('text-slate-300');
+                textEl.classList.add('text-green-400');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetFileUploadUI() {
+            uploadedImageBase64 = '';
+            document.getElementById('admin-part-file').value = '';
+            const label = document.getElementById('file-upload-label');
+            const textEl = document.getElementById('upload-text');
+            const iconEl = document.getElementById('upload-icon');
+            
+            label.classList.add('border-white/10');
+            label.classList.remove('border-green-500/50', 'bg-green-500/5');
+            iconEl.className = "fas fa-image text-slate-400 text-lg mb-1.5";
+            textEl.innerText = i18n[currentLang]["upload-prompt"];
+            textEl.classList.add('text-slate-300');
+            textEl.classList.remove('text-green-400');
+        }
+
+        // Admin Functionalities
+        function showAdminPanel() {
+            document.getElementById('admin-panel').classList.remove('hidden');
+            renderAdminParts();
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('admin-panel').classList.add('hidden');
+        }
+
+        function adminAddPart() {
+            const name = document.getElementById('admin-part-name').value;
+            const price = parseInt(document.getElementById('admin-part-price').value);
+            const cat = document.getElementById('admin-part-category').value;
+            const brand = document.getElementById('admin-part-brand').value;
+            const rawImg = document.getElementById('admin-part-image').value;
+            
+            // Prioritize device-uploaded image over direct URL input
+            const img = uploadedImageBase64 || rawImg || "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=400";
+
+            if (!name || !price) {
+                playSound('error');
+                showToast("Please compile details");
+                return;
+            }
+
+            // Bind fuel requirements based on category
+            let fuel = "All";
+            if (cat === "EV Only") fuel = "EV (Electric Model)";
+            if (cat === "Engine") fuel = "ICE (Fuel Model)";
+
+            const newPart = {
+                id: Date.now(),
+                name,
+                price,
+                category: cat,
+                brand,
+                fuel,
+                img
+            };
+
+            partsLibrary.push(newPart);
+            saveLibrary();
+            renderAdminParts();
+            playSound('success');
+            showToast("Added To Catalog");
+
+            // Clear inputs
+            document.getElementById('admin-part-name').value = '';
+            document.getElementById('admin-part-price').value = '';
+            document.getElementById('admin-part-image').value = '';
+            resetFileUploadUI();
+            
+            // Re-render display if at step 4
+            if (selection.model) showStep4();
+        }
+
+        function removePart(id) {
+            partsLibrary = partsLibrary.filter(part => part.id !== id);
+            saveLibrary();
+            renderAdminParts();
+            playSound('click');
+            if (selection.model) showStep4();
+        }
+
+        function saveLibrary() {
+            localStorage.setItem('ht_parts_lib', JSON.stringify(partsLibrary));
+        }
+
+        function renderAdminParts() {
+            const list = document.getElementById('admin-parts-list');
+            list.innerHTML = partsLibrary.map(p => `
+                <div class="flex items-center justify-between glass p-3 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover bg-slate-800">
+                        <div>
+                            <p class="text-[11px] font-bold text-white">${p.name}</p>
+                            <p class="text-[9px] text-slate-400 font-semibold tracking-wider uppercase">${p.category} | ${p.brand}</p>
+                            <p class="text-[10px] text-red-500 font-bold">${p.price.toLocaleString()} Ks</p>
+                        </div>
+                    </div>
+                    <button onclick="removePart(${p.id})" class="text-red-500 p-2 hover:bg-white/5 rounded-lg transition"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `).join('');
+        }
+
+        // Stepper Navigation Core
+        function stepperGoto(step) {
+            playSound('click');
+            if (step === 1) {
+                selection = { brand: '', fuel: '', model: '' };
+                showStep1();
+            } else if (step === 2 && selection.brand) {
+                selection.fuel = '';
+                selection.model = '';
+                showStep2();
+            } else if (step === 3 && selection.fuel) {
+                selection.model = '';
+                showStep3();
+            } else if (step === 4 && selection.model) {
+                showStep4();
+            } else {
+                playSound('error');
+            }
+        }
+
+        function updateStepBackground(step) {
+            document.body.className = `pb-28 bg-step-${step}`;
+            for (let i = 1; i <= 4; i++) {
+                const node = document.getElementById(`step-${i}-node`);
+                if (i <= step) node.classList.add('step-active');
+                else node.classList.remove('step-active');
+            }
+        }
+
+        // View 1: Brand Screen
+        function showStep1() {
+            updateStepBackground(1);
+            let html = `
+                <div class="mb-10 text-center animate-slide">
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-2 italic uppercase tracking-tighter">
+                        ${i18n[currentLang]["brand-header"]}
+                    </h2>
+                    <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] opacity-80 max-w-lg mx-auto leading-relaxed">
+                        ${i18n[currentLang]["brand-tagline"]}
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">`;
+
+            Object.keys(brandMatrix).forEach(brand => {
+                const info = brandMatrix[brand];
+                html += `
+                    <div class="brand-hero-card p-8 rounded-[2rem] cursor-pointer group flex items-center justify-between shadow-lg border-white/5 hover:border-red-500/30" onclick="selectBrand('${brand}')">
+                        <div class="flex items-center gap-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-white text-2xl shadow-xl shadow-red-600/20 group-hover:scale-110 transition-transform">
+                                <i class="fas ${info.logo}"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-extrabold text-2xl text-white uppercase tracking-tight">${brand}</span>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                    <p class="text-[9px] text-red-500 font-extrabold uppercase tracking-widest">Active Inventory</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 glass rounded-full flex items-center justify-center text-white group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                        </div>
+                    </div>`;
+            });
+
+            html += `</div>`;
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function selectBrand(brand) {
+            playSound('click');
+            selection.brand = brand;
+            showStep2();
+        }
+
+        // View 2: Engine Layout Config
+        function showStep2() {
+            updateStepBackground(2);
+            let html = `
+                <div class="mb-8 flex items-center gap-4 animate-slide">
+                    <button onclick="stepperGoto(1)" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:bg-white/10 text-white transition"><i class="fas fa-arrow-left text-xs"></i></button>
+                    <div>
+                        <h2 class="text-2xl font-black text-white uppercase italic tracking-tight">${i18n[currentLang]["engine-header"]}</h2>
+                        <p class="text-[9px] text-red-500 font-black tracking-wider uppercase">${selection.brand} Platform Configurations</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+            
+            const categories = ["EV (Electric Model)", "ICE (Fuel Model)"];
+            categories.forEach(fuel => {
+                const isEV = fuel.includes("EV");
+                const icon = isEV ? "fa-bolt" : "fa-gas-pump";
+                const color = isEV ? "text-blue-400 bg-blue-500/10 border-blue-500/20" : "text-orange-400 bg-orange-500/10 border-orange-500/20";
+                
+                html += `
+                    <div onclick="selectFuel('${fuel}')" class="brand-hero-card p-10 rounded-[2rem] flex flex-col items-center gap-6 cursor-pointer border border-white/5 group text-center hover:border-red-500/30">
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center ${color} border text-2xl group-hover:scale-110 transition-all duration-300">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div>
+                            <span class="font-extrabold text-lg text-white uppercase tracking-tight">${fuel}</span>
+                            <p class="text-[10px] text-slate-400 mt-1 uppercase font-semibold">Browse matching components</p>
+                        </div>
+                    </div>`;
+            });
+
+            html += `</div>`;
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function selectFuel(fuel) {
+            playSound('click');
+            selection.fuel = fuel;
+            showStep3();
+        }
+
+        // View 3: Select Model Screen
+        function showStep3() {
+            updateStepBackground(3);
+            let html = `
+                <div class="mb-8 flex items-center gap-4 animate-slide">
+                    <button onclick="stepperGoto(2)" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:bg-white/10 text-white transition"><i class="fas fa-arrow-left text-xs"></i></button>
+                    <div>
+                        <h2 class="text-2xl font-black text-white uppercase italic tracking-tight">${i18n[currentLang]["model-header"]}</h2>
+                        <p class="text-[9px] text-red-500 font-black tracking-wider uppercase">${selection.brand} &bull; ${selection.fuel}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">`;
+            
+            const models = brandMatrix[selection.brand][selection.fuel] || [];
+            models.forEach(model => {
+                html += `
+                    <div onclick="selectModel('${model}')" class="glass p-6 rounded-2xl flex items-center justify-between cursor-pointer border border-white/5 hover:border-red-500/30 group transition-all duration-300">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 group-hover:bg-red-500/10 group-hover:text-red-500 transition-all">
+                                <i class="fas fa-car text-xs"></i>
+                            </div>
+                            <span class="font-extrabold text-base text-white tracking-tight">${model}</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-xs text-slate-600 group-hover:text-red-500 transition-colors"></i>
+                    </div>`;
+            });
+
+            html += `</div>`;
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function selectModel(model) {
+            playSound('click');
+            selection.model = model;
+            showStep4();
+        }
+
+        // View 4: Parts Browsing & Dynamic Filters
+        function showStep4() {
+            updateStepBackground(4);
+            
+            const categories = ["All", "Maintenance", "Engine", "Safety", "EV Only", "Exterior"];
+            let filterHtml = categories.map(cat => {
+                const isActive = currentFilter === cat;
+                const translatedText = cat === "All" ? i18n[currentLang]["filter-all"] : cat;
+                return `
+                    <button onclick="setPartsFilter('${cat}')" class="px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border ${isActive ? 'bg-red-500 text-white border-red-500 shadow-md' : 'glass text-slate-400 hover:text-white border-white/5'}">
+                        ${translatedText}
+                    </button>
+                `;
+            }).join('');
+
+            let html = `
+                <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-slide">
+                    <div class="flex items-center gap-4">
+                        <button onclick="stepperGoto(3)" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:bg-white/10 text-white transition"><i class="fas fa-arrow-left text-xs"></i></button>
+                        <div>
+                            <h2 class="text-2xl font-black text-white uppercase italic tracking-tight">${i18n[currentLang]["parts-header"]}</h2>
+                            <p class="text-[9px] text-red-500 font-black tracking-wider uppercase">${selection.brand} &bull; ${selection.model}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Input -->
+                    <div class="glass flex items-center px-4 py-2 rounded-xl border border-white/5 max-w-xs w-full">
+                        <i class="fas fa-search text-slate-500 text-xs mr-2"></i>
+                        <input id="parts-search" type="text" oninput="handleSearch(this.value)" placeholder="${i18n[currentLang]["search-placeholder"]}" value="${searchQuery}" class="bg-transparent text-xs text-white outline-none w-full">
+                    </div>
+                </div>
+
+                <!-- Interactive Filters -->
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-4 mb-6">
+                    ${filterHtml}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="parts-cards-container">`;
+            
+            html += getFilteredPartsHtml();
+            html += `</div>`;
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function setPartsFilter(category) {
+            playSound('click');
+            currentFilter = category;
+            showStep4();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.toLowerCase();
+            document.getElementById('parts-cards-container').innerHTML = getFilteredPartsHtml();
+        }
+
+        function getFilteredPartsHtml() {
+            let html = "";
+            let filtered = partsLibrary.filter(part => {
+                // Compatibility Filters
+                const brandMatch = part.brand === "All" || part.brand === selection.brand;
+                const fuelMatch = part.fuel === "All" || part.fuel === selection.fuel;
+                const categoryMatch = currentFilter === 'All' || part.category === currentFilter;
+                const searchMatch = part.name.toLowerCase().includes(searchQuery);
+
+                return brandMatch && fuelMatch && categoryMatch && searchMatch;
+            });
+
+            if (filtered.length === 0) {
+                return `
+                    <div class="col-span-2 text-center py-16 flex flex-col items-center justify-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-slate-900/50 flex items-center justify-center text-slate-600 border border-white/5">
+                            <i class="fas fa-info text-sm"></i>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">No matching parts found</p>
+                    </div>
+                `;
+            }
+
+            filtered.forEach(part => {
+                html += `
+                    <div class="brand-hero-card p-4 rounded-3xl flex flex-col transition-all animate-slide border border-white/5">
+                        <div class="part-image-container">
+                            <img src="${part.img}" alt="${part.name}" onerror="this.src='https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=400'">
+                            <span class="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-lg text-[8px] font-black uppercase text-slate-300 tracking-wider">
+                                ${part.category}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-start mb-4 px-1">
+                            <div>
+                                <h4 class="font-extrabold text-sm text-white tracking-tight uppercase leading-tight">${part.name}</h4>
+                                <p class="text-[9px] text-slate-400 font-bold mt-1 uppercase tracking-tight">${selection.brand} Spec Fit</p>
+                            </div>
+                            <span class="text-xs font-black text-red-500 whitespace-nowrap ml-2">${part.price.toLocaleString()} Ks</span>
+                        </div>
+                        <button onclick="addToCart('${part.name}', ${part.price}, ${part.id})" class="w-full bg-white/5 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white border border-white/5 hover:border-transparent text-slate-200 text-[10px] font-bold py-3.5 rounded-xl active:scale-95 transition-all uppercase tracking-widest">
+                            ${i18n[currentLang]["add-basket"]}
+                        </button>
+                    </div>`;
+            });
+            return html;
+        }
+
+        // Advanced Dynamic Cart State Controller
+        function addToCart(partName, price, id) {
+            playSound('add');
+            
+            // Check if item already exists inside basket
+            const existingItem = cart.find(item => item.id === id && item.model === selection.model);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ id, model: selection.model, part: partName, price, qty: 1 });
+            }
+            
+            updateCartCount();
+            
+            const cartBtn = document.getElementById('cart-btn');
+            cartBtn.classList.add('animate-shake');
+            setTimeout(() => cartBtn.classList.remove('animate-shake'), 450);
+
+            showToast(`${partName} ${i18n[currentLang]["added"]}`);
+        }
+
+        function updateCartCount() {
+            const count = document.getElementById('cart-count');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            count.innerText = totalQty;
+            count.classList.add('scale-150');
+            setTimeout(() => count.classList.remove('scale-150'), 200);
+        }
+
+        function changeQty(idx, mod) {
+            playSound('click');
+            cart[idx].qty += mod;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            updateCartCount();
+            showCart();
+        }
+
+        function showCart() {
+            playSound('click');
+            const list = document.getElementById('cart-items-list');
+            const footer = document.getElementById('cart-footer');
+            document.getElementById('cart-sidebar').classList.remove('hidden');
+            
+            if (cart.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-20 flex flex-col items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-slate-700 border border-white/5">
+                            <i class="fas fa-shopping-basket text-xl"></i>
+                        </div>
+                        <p class="opacity-40 text-xs font-bold uppercase tracking-wider text-slate-300">
+                            ${i18n[currentLang]["empty-basket"]}
+                        </p>
+                    </div>`;
+                footer.classList.add('hidden');
+            } else {
+                list.innerHTML = cart.map((item, idx) => `
+                    <div class="glass p-4 rounded-xl flex justify-between items-center border-l-2 border-red-500 animate-slide">
+                        <div>
+                            <h4 class="font-extrabold text-xs text-white uppercase">${item.part}</h4>
+                            <p class="text-[9px] text-red-500 uppercase font-black mt-1 tracking-tight">${item.model}</p>
+                            <p class="text-[9px] text-slate-400 font-bold mt-0.5">${item.price.toLocaleString()} Ks</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <!-- Qty adjuster -->
+                            <div class="flex items-center bg-white/5 border border-white/5 rounded-lg overflow-hidden">
+                                <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 text-xs hover:bg-white/5 text-slate-400 hover:text-white transition">&minus;</button>
+                                <span class="text-xs font-bold text-white px-2">${item.qty}</span>
+                                <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 text-xs hover:bg-white/5 text-slate-400 hover:text-white transition">&plus;</button>
+                            </div>
+                            <button onclick="removeFromCart(${idx})" class="w-8 h-8 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-500 transition"><i class="fas fa-trash-alt text-xs"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                calculateTotals();
+                footer.classList.remove('hidden');
+            }
+            translateInterface();
+        }
+
+        function calculateTotals() {
+            const itemsTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const grandTotal = itemsTotal + deliveryFee;
+
+            document.getElementById('summary-items-total').innerText = `${itemsTotal.toLocaleString()} Ks`;
+            document.getElementById('summary-delivery').innerText = `${deliveryFee.toLocaleString()} Ks`;
+            document.getElementById('summary-grand-total').innerText = `${grandTotal.toLocaleString()} Ks`;
+        }
+
+        function hideCart() {
+            playSound('click');
+            document.getElementById('cart-sidebar').classList.add('hidden');
+        }
+
+        function removeFromCart(idx) {
+            playSound('click');
+            cart.splice(idx, 1);
+            updateCartCount();
+            showCart();
+        }
+
+        function selectPaymentMethod(method) {
+            playSound('click');
+            selectedPayment = method;
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            if (method === 'KBZPay') document.getElementById('pay-kbz').classList.add('selected');
+            if (method === 'CBPay') document.getElementById('pay-CB').classList.add('selected');
+            
+            document.getElementById('payment-instruction').classList.remove('hidden');
+            const info = method === 'KBZPay' ? "09-794722503  (U Htun Tauk)" : "09 796396225 (U Htun Tauk)";
+            document.getElementById('account-info').innerText = info;
+        }
+
+        function resetToStart() {
+            playSound('click');
+            selection = { brand: '', fuel: '', model: '' };
+            selectedPayment = null;
+            updateCartCount();
+            hideCart();
+            showStep1();
+        }
+
+        async function sendOrder() {
+            const name = document.getElementById('user-name').value;
+            const phone = document.getElementById('user-phone').value;
+            const address = document.getElementById('user-address').value;
+            const btn = document.getElementById('send-btn');
+
+            if (!name || !phone || !address || !selectedPayment) {
+                playSound('error');
+                showToast(i18n[currentLang]["toast-fill"]);
+                return;
+            }
+
+            const itemsTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const grandTotal = itemsTotal + deliveryFee;
+
+            const botToken = '8718731722:AAGlfV4JJgL-CrvGqBDo-sn7mTZdrpvH4-A'; 
+            const chatId = '5533317091';
+
+            let message = `⚙️ *NEW HTUN TAUK AUTOMOTIVE ORDER*\n\n`;
+            message += `👤 *Customer Name:* ${name}\n`;
+            message += `📞 *Phone:* ${phone}\n`;
+            message += `📍 *Delivery Address:* ${address}\n`;
+            message += `💳 *Method:* ${selectedPayment}\n\n`;
+            message += `📦 *Items Checklist:*\n`;
+            cart.forEach((item, i) => {
+                message += `${i + 1}. *${item.part}* (${item.model}) x${item.qty} - ${(item.price * item.qty).toLocaleString()} Ks\n`;
+            });
+            message += `\n💵 *Items Total:* ${itemsTotal.toLocaleString()} Ks\n`;
+            message += `🚚 *Delivery Fee:* ${deliveryFee.toLocaleString()} Ks\n`;
+            message += `💰 *Grand Total:* *${grandTotal.toLocaleString()} Ks*\n`;
+
+            btn.disabled = true;
+            btn.innerText = i18n[currentLang]["sending"];
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })
+                });
+
+                if (response.ok) {
+                    playSound('success');
+                    showToast(i18n[currentLang]["toast-order-sent"]);
+                    setTimeout(() => {
+                        cart = [];
+                        resetToStart();
+                    }, 1500);
+                } else {
+                    throw new Error("API rejection");
+                }
+            } catch (error) {
+                playSound('error');
+                showToast(i18n[currentLang]["toast-order-fail"]);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = i18n[currentLang]["send-order"];
+            }
+        }
+
+        function showToast(msg) {
+            const old = document.querySelector('.toast-msg');
+            if (old) old.remove();
+            const t = document.createElement('div');
+            t.className = "toast-msg fixed bottom-24 left-1/2 -translate-x-1/2 glass text-white px-8 py-3.5 rounded-2xl font-bold text-xs z-[200] shadow-2xl animate-slide uppercase tracking-wider border border-red-500/20";
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        window.onload = function() {
+            showStep1();
+            translateInterface();
+        };
+    </script>
+</body>
+</html>
